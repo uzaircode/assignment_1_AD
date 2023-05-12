@@ -1,0 +1,76 @@
+DROP table if exists Movie CASCADE;
+DROP table if exists Booking CASCADE;
+DROP table if exists Cinema CASCADE; 
+DROP table if exists Showtime CASCADE;
+DROP table if exists Promotion CASCADE;
+DROP table if exists Customer CASCADE;
+
+CREATE TABLE Movie (
+	Movie_ID varchar(10) NOT NULL,
+	Movie_Title varchar(30),
+	Genre varchar(30),
+	Duration time,
+	Release_Date date,
+	classification varchar(10),
+	
+	CONSTRAINT movie_ID PRIMARY KEY (Movie_ID)
+);
+
+CREATE TABLE Cinema (
+	Cinema_ID varchar(10) NOT NULL,
+	Location varchar(10), 
+	Hall_ID varchar(10),
+	Capacity int,
+	
+	CONSTRAINT Cinema_ID PRIMARY KEY (Cinema_ID)
+);
+
+CREATE TABLE Showtime (
+	Showtime_ID varchar(10) NOT NULL,
+	Movie_ID varchar(10),
+	Cinema_ID varchar(10),
+	Start_Time time,
+	End_Time time,
+	
+	CONSTRAINT Showtime_ID PRIMARY KEY (Showtime_ID),
+    FOREIGN KEY (Movie_ID) REFERENCES Movie(Movie_ID),
+	FOREIGN KEY (Cinema_ID) REFERENCES Cinema(Cinema_ID)
+
+);
+
+CREATE TABLE Promotion (
+	Promotion_ID varchar(10) NOT NULL,
+	Description varchar(100),
+	Start_Date Date,
+	End_Date Date,
+	
+	CONSTRAINT Promotion_ID PRIMARY KEY (Promotion_ID)
+);
+
+CREATE TABLE Customer (
+	Customer_ID varchar(10) NOT NULL,
+	Name varchar(100),
+	Age int,
+	Email varchar(100),
+	Phone_Number varchar(100),
+	
+	CONSTRAINT Customer_ID PRIMARY KEY (Customer_ID)
+);
+
+CREATE TABLE Booking (
+	Booking_ID varchar(10) NOT NULL,
+	Showtime_ID varchar(10),
+	Customer_ID varchar(10),
+	Cinema_ID varchar(10),
+	Promotion_ID varchar(10),
+	Movie_ID varchar(10),
+	Booking_Date Date,
+	
+	CONSTRAINT Booking_ID PRIMARY KEY (Booking_ID),
+	FOREIGN KEY (Showtime_ID) REFERENCES Showtime(Showtime_ID),
+	FOREIGN KEY (Customer_ID) REFERENCES Customer(Customer_ID),
+	FOREIGN KEY (Cinema_ID) REFERENCES Cinema(Cinema_ID),
+	FOREIGN KEY (Promotion_ID) REFERENCES Promotion(Promotion_ID),
+	FOREIGN KEY (Movie_ID) REFERENCES Movie(Movie_ID)
+
+);
