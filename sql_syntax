@@ -7,7 +7,7 @@ DROP table if exists Customer CASCADE;
 
 CREATE TABLE Movie (
 	Movie_ID varchar(10) NOT NULL,
-	Movie_Title varchar(30),
+	Movie_Title varchar(40),
 	Genre varchar(30),
 	Duration time,
 	Release_Date date,
@@ -18,7 +18,7 @@ CREATE TABLE Movie (
 
 CREATE TABLE Cinema (
 	Cinema_ID varchar(10) NOT NULL,
-	Location varchar(10), 
+	Location varchar(20), 
 	Hall_ID varchar(10),
 	Capacity int,
 	
@@ -74,3 +74,82 @@ CREATE TABLE Booking (
 	FOREIGN KEY (Movie_ID) REFERENCES Movie(Movie_ID)
 
 );
+
+-- Insert into Movie
+INSERT INTO Movie VALUES 
+('M001', 'Polis Evo 3', 'Action', '03:01:00', '2023-05-25', 'PG-13'),
+('M002', 'The Super Mario Bros. Movie', 'Animation', '01:40:00', '2023-04-20', 'G'),
+('M003', 'Spider-Man: Across the Spider-Verse', 'Animation', '01:43:00', '2023-06-02', 'PG'),
+('M004', 'Luther: The Fallen Sun', 'Drama', '02:02:00', '2023-02-24', 'R'),
+('M005', 'Missing', 'Thriller', '02:12:00', '2023-01-20', 'R'),
+('M006', 'Oppenheimer', 'War', '01:59:00', '2023-07-21', 'R'),
+('M007', 'Murder Mystery 2', 'Comedy', '01:48:00', '2023-03-31', 'PG-13'),
+('M008', 'Fast X', 'Action', '02:32:00', '2023-05-18', 'PG-13'),
+('M009', 'Creed III', 'Drama', '02:15:00', '2023-03-03', 'PG'),
+('M010', 'The Super Marios', 'Animation', '01:58:00', '2023-04-20', 'PG');
+
+-- Insert into Cinema
+INSERT INTO Cinema VALUES 
+('C001', 'Kuala Lumpur', 'H001', 100),
+('C002', 'Penang', 'H002', 120),
+('C003', 'Ipoh', 'H003', 90),
+('C004', 'Kuching', 'H004', 110),
+('C005', 'Johor Bahru', 'H005', 80),
+('C006', 'Kota Kinabalu', 'H006', 130),
+('C007', 'Shah Alam', 'H007', 120),
+('C008', 'Melaka', 'H008', 100),
+('C009', 'Alor Setar', 'H009', 110),
+('C010', 'Kuantan', 'H010', 90);
+
+-- Insert into Showtime
+INSERT INTO Showtime VALUES 
+('S001', 'M001', 'C001', '14:00:00', '17:01:00'),
+('S002', 'M002', 'C002', '15:00:00', '16:40:00'),
+('S003', 'M003', 'C003', '16:00:00', '17:43:00'),
+('S004', 'M004', 'C004', '17:00:00', '19:02:00'),
+('S005', 'M005', 'C005', '18:00:00', '20:12:00'),
+('S006', 'M006', 'C006', '19:00:00', '20:59:00'),
+('S007', 'M007', 'C007', '20:00:00', '21:48:00'),
+('S008', 'M008', 'C008', '21:00:00', '23:32:00'),
+('S009', 'M009', 'C009', '22:00:00', '00:15:00'),
+('S010', 'M010', 'C010', '23:00:00', '00:58:00');
+
+-- Insert into Promotion
+INSERT INTO Promotion VALUES 
+('P001', 'Buy 1 Get 1 Free', '2023-05-01', '2023-05-31'),
+('P002', '20% off on weekdays', '2023-04-01', '2023-04-30'),
+('P003', '30% off for students', '2023-06-01', '2023-06-30'),
+('P004', '50% off for seniors', '2023-07-01', '2023-07-31'),
+('P005', 'Free popcorn', '2023-08-01', '2023-08-31'),
+('P006', 'Free drink', '2023-09-01', '2023-09-30'),
+('P007', 'Discount on new releases', '2023-10-01', '2023-10-31'),
+('P008', 'Loyalty program discount', '2023-11-01', '2023-11-30'),
+('P009', 'Early bird discount', '2023-12-01', '2023-12-31'),
+('P010', 'Off-peak discount', '2024-01-01', '2024-01-31');
+
+-- Insert into Customer
+INSERT INTO Customer VALUES 
+('CU001', 'Ahmad Bin Ali', 25, 'ahmad.ali@gmail.com', '1234567890'),
+('CU002', 'Siti Binti Abdul', 30, 'siti.abdul@gmail.com', '0987654321'),
+('CU003', 'Mohd Tan Wei', 35, 'mohd.tan@gmail.com', '1122334455'),
+('CU004', 'Amina Binti Idris', 40, 'amina.idris@gmail.com', '2233445566'),
+('CU005', 'Chong Wei Ming', 45, 'chong.wm@gmail.com', '3344556677'),
+('CU006', 'Nurul Izzah Anwar', 50, 'nurul.anwar@gmail.com', '4455667788'),
+('CU007', 'Lim Guan Eng', 55, 'lim.ge@gmail.com', '5566778899'),
+('CU008', 'Fatimah Binti Ismail', 60, 'fatimah.ismail@gmail.com', '6677889900'),
+('CU009', 'Kumar S/O Raju', 65, 'kumar.raju@gmail.com', '7788990011'),
+('CU010', 'Aishah Binti Hassan', 70, 'aishah.hassan@gmail.com', '8899001122');
+
+
+-- Insert into Booking
+INSERT INTO Booking VALUES 
+('B001', 'S001', 'CU001', 'C001', 'P001', 'M001', '2023-05-12'),
+('B002', 'S002', 'CU002', 'C002', 'P002', 'M002', '2023-05-12'),
+('B003', 'S003', 'CU003', 'C003', 'P003', 'M003', '2023-05-12'),
+('B004', 'S004', 'CU004', 'C004', 'P004', 'M004', '2023-05-12'),
+('B005', 'S005', 'CU005', 'C005', 'P005', 'M005', '2023-05-12'),
+('B006', 'S006', 'CU006', 'C006', 'P006', 'M006', '2023-05-12'),
+('B007', 'S007', 'CU007', 'C007', 'P007', 'M007', '2023-05-12'),
+('B008', 'S008', 'CU008', 'C008', 'P008', 'M008', '2023-05-12'),
+('B009', 'S009', 'CU009', 'C009', 'P009', 'M009', '2023-05-12'),
+('B010', 'S010', 'CU010', 'C010', 'P010', 'M010', '2023-05-12');
