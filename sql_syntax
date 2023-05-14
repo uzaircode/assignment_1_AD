@@ -153,3 +153,75 @@ INSERT INTO Booking VALUES
 ('B008', 'S008', 'CU008', 'C008', 'P008', 'M008', '2023-05-12'),
 ('B009', 'S009', 'CU009', 'C009', 'P009', 'M009', '2023-05-12'),
 ('B010', 'S010', 'CU010', 'C010', 'P010', 'M010', '2023-05-12');
+
+
+-- VIEW SAMPLE 1 --
+CREATE VIEW Active_Promotions_View AS
+SELECT Promotion_ID, Description, Start_Date, End_Date
+FROM Promotion
+WHERE End_Date >= CURRENT_DATE;
+
+SELECT * FROM Active_Promotions_View;
+
+-- VIEW SAMPLE 2 --
+CREATE VIEW Showtime_Details_View AS
+SELECT S.Showtime_ID, S.Start_Time, S.End_Time, M.Movie_Title, C.Location
+FROM Showtime S
+JOIN Movie M ON S.Movie_ID = M.Movie_ID
+JOIN Cinema C ON S.Cinema_ID = C.Cinema_ID;
+
+SELECT * FROM Showtime_Details_View;
+
+-- VIEW SAMPLE 3 --
+CREATE VIEW Movie_Booking_View AS
+SELECT B.Booking_ID, B.Booking_Date, M.Movie_Title, M.Genre, CN.Location, S.Start_Time, S.End_Time, P.Description, C.Name AS Customer_Name, C.Email
+FROM Booking B
+JOIN Movie M ON B.Movie_ID = M.Movie_ID
+JOIN Cinema CN ON B.Cinema_ID = CN.Cinema_ID
+JOIN Showtime S ON B.Showtime_ID = S.Showtime_ID
+JOIN Promotion P ON B.Promotion_ID = P.Promotion_ID
+JOIN Customer C ON B.Customer_ID = C.Customer_ID;
+
+SELECT * FROM Movie_Booking_View;
+
+-- VIEW SAMPLE 4 --
+CREATE VIEW Cinema_Capacity_View AS
+SELECT C.Cinema_ID, C.Location, C.Capacity, COUNT(B.Booking_ID) AS Bookings_Count
+FROM Cinema C
+LEFT JOIN Booking B ON C.Cinema_ID = B.Cinema_ID
+GROUP BY C.Cinema_ID, C.Location, C.Capacity;
+
+SELECT * FROM Cinema_Capacity_View;
+
+
+-- VIEW SAMPLE 5 --
+CREATE OR REPLACE VIEW detailed_bookings AS
+SELECT 
+    B.Booking_ID,
+    C.Name AS Customer_Name,
+    M.Movie_Title,
+    S.Start_Time,
+    S.End_Time,
+    Ci.Location AS Cinema_Location,
+    P.Description AS Promotion_Description,
+    COUNT(*) OVER (PARTITION BY B.Customer_ID) AS Total_Customer_Bookings
+FROM 
+    Booking B
+INNER JOIN 
+    Customer C ON B.Customer_ID = C.Customer_ID
+INNER JOIN 
+    Movie M ON B.Movie_ID = M.Movie_ID
+INNER JOIN 
+    Showtime S ON B.Showtime_ID = S.Showtime_ID
+INNER JOIN 
+    Cinema Ci ON B.Cinema_ID = Ci.Cinema_ID
+LEFT JOIN 
+    Promotion P ON B.Promotion_ID = P.Promotion_ID
+ORDER BY 
+    B.Booking_ID;
+   
+-- SELECT * FROM detailed_bookings;
+-- OR --
+SELECT * 
+FROM detailed_bookings
+WHERE Customer_Name = 'Ahmad Bin Ali';
