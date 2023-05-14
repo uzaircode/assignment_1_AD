@@ -4,6 +4,8 @@ DROP table if exists Cinema CASCADE;
 DROP table if exists Showtime CASCADE;
 DROP table if exists Promotion CASCADE;
 DROP table if exists Customer CASCADE;
+DROP table if exists TotalDurationTable CASCADE;
+
 
 CREATE TABLE Movie (
 	Movie_ID varchar(10) NOT NULL,
@@ -153,6 +155,56 @@ INSERT INTO Booking VALUES
 ('B008', 'S008', 'CU008', 'C008', 'P008', 'M008', '2023-05-12'),
 ('B009', 'S009', 'CU009', 'C009', 'P009', 'M009', '2023-05-12'),
 ('B010', 'S010', 'CU010', 'C010', 'P010', 'M010', '2023-05-12');
+
+
+-- user-defined-function named TotalDuration that calculates the total duration of movies watched by a customer.
+-- TotalDurationTable must be executed first to create the TotalDurationTable containing customer_ID, name and total duration interval
+CREATE TABLE TotalDurationTable (
+    customer_id varchar(10),
+    name varchar(50),
+    total_duration interval
+);
+
+-- The User-Defined Function 
+CREATE OR REPLACE FUNCTION TotalDuration()
+RETURNS VOID
+AS $$
+DECLARE
+    customer_id_param varchar(10);
+    customer_cursor CURSOR FOR SELECT Customer_ID FROM Customer;
+BEGIN
+    OPEN customer_cursor;
+    LOOP
+        FETCH customer_cursor INTO customer_id_param;
+        EXIT WHEN NOT FOUND;
+        
+        INSERT INTO TotalDurationTable (customer_id, name, total_duration)
+        SELECT
+            c.Customer_ID,
+            c.Name,
+            SUM(m.Duration) AS total_duration
+        FROM
+            Customer c
+        INNER JOIN
+            Booking b ON c.Customer_ID = b.Customer_ID
+        INNER JOIN
+            Movie m ON b.Movie_ID = m.Movie_ID
+        WHERE
+            c.Customer_ID = customer_id_param
+        GROUP BY
+            c.Customer_ID,
+            c.Name;
+    END LOOP;
+    
+    CLOSE customer_cursor;
+END;
+$$LANGUAGE'plpgsql';
+
+
+-- Select and execute the UDF and refresh the TotalDurationTable
+-- This will return the total duration as an interval value, indicating the accumulated duration of movies watched by the customer
+SELECT TotalDuration();
+
 
 
 -- VIEW SAMPLE 1 --
