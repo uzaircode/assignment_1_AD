@@ -208,15 +208,7 @@ SELECT TotalDuration();
 
 
 -- VIEW SAMPLE 1 --
-CREATE VIEW Active_Promotions_View AS
-SELECT Promotion_ID, Description, Start_Date, End_Date
-FROM Promotion
-WHERE End_Date >= CURRENT_DATE;
-
-SELECT * FROM Active_Promotions_View;
-
--- VIEW SAMPLE 2 --
-CREATE VIEW Showtime_Details_View AS
+CREATE OR REPLACE VIEW Showtime_Details_View AS
 SELECT S.Showtime_ID, S.Start_Time, S.End_Time, M.Movie_Title, C.Location
 FROM Showtime S
 JOIN Movie M ON S.Movie_ID = M.Movie_ID
@@ -224,8 +216,8 @@ JOIN Cinema C ON S.Cinema_ID = C.Cinema_ID;
 
 SELECT * FROM Showtime_Details_View;
 
--- VIEW SAMPLE 3 --
-CREATE VIEW Movie_Booking_View AS
+-- VIEW SAMPLE 2 --
+CREATE OR REPLACE VIEW Movie_Booking_View AS
 SELECT B.Booking_ID, B.Booking_Date, M.Movie_Title, M.Genre, CN.Location, S.Start_Time, S.End_Time, P.Description, C.Name AS Customer_Name, C.Email
 FROM Booking B
 JOIN Movie M ON B.Movie_ID = M.Movie_ID
@@ -236,17 +228,8 @@ JOIN Customer C ON B.Customer_ID = C.Customer_ID;
 
 SELECT * FROM Movie_Booking_View;
 
--- VIEW SAMPLE 4 --
-CREATE VIEW Cinema_Capacity_View AS
-SELECT C.Cinema_ID, C.Location, C.Capacity, COUNT(B.Booking_ID) AS Bookings_Count
-FROM Cinema C
-LEFT JOIN Booking B ON C.Cinema_ID = B.Cinema_ID
-GROUP BY C.Cinema_ID, C.Location, C.Capacity;
 
-SELECT * FROM Cinema_Capacity_View;
-
-
--- VIEW SAMPLE 5 --
+-- VIEW SAMPLE 3 --
 CREATE OR REPLACE VIEW detailed_bookings AS
 SELECT 
     B.Booking_ID,
