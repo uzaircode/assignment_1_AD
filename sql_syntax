@@ -230,7 +230,7 @@ SELECT TotalDuration();
 
 
 -- VIEW SAMPLE 1 --
-CREATE VIEW Active_Promotions_View AS
+CREATE OR REPLACE VIEW Active_Promotions_View AS
 SELECT Promotion_ID, Description, Start_Date, End_Date
 FROM Promotion
 WHERE End_Date >= CURRENT_DATE;
