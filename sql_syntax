@@ -34,6 +34,7 @@ CREATE TABLE Showtime (
 	Cinema_ID varchar(10),
 	Start_Time time,
 	End_Time time,
+	Vacancy int,
 	
 	CONSTRAINT Showtime_ID PRIMARY KEY (Showtime_ID),
     FOREIGN KEY (Movie_ID) REFERENCES Movie(Movie_ID),
@@ -46,6 +47,7 @@ CREATE TABLE Promotion (
 	Description varchar(100),
 	Start_Date Date,
 	End_Date Date,
+	Discount_Percent Numeric(8,2),
 	
 	CONSTRAINT Promotion_ID PRIMARY KEY (Promotion_ID)
 );
@@ -115,30 +117,30 @@ INSERT INTO Cinema VALUES
 ('C010', 'Kuantan', 'H010', 90);
 
 -- Insert into Showtime
-INSERT INTO Showtime VALUES 
-('S001', 'M001', 'C001', '14:00:00', '17:01:00'),
-('S002', 'M002', 'C002', '15:00:00', '16:40:00'),
-('S003', 'M003', 'C003', '16:00:00', '17:43:00'),
-('S004', 'M004', 'C004', '17:00:00', '19:02:00'),
-('S005', 'M005', 'C005', '18:00:00', '20:12:00'),
-('S006', 'M006', 'C006', '19:00:00', '20:59:00'),
-('S007', 'M007', 'C007', '20:00:00', '21:48:00'),
-('S008', 'M008', 'C008', '21:00:00', '23:32:00'),
-('S009', 'M009', 'C009', '22:00:00', '00:15:00'),
-('S010', 'M010', 'C010', '23:00:00', '00:58:00');
+INSERT INTO Showtime VALUES  
+('S001', 'M001', 'C001', '14:00:00', '17:01:00', 100),
+('S002', 'M002', 'C002', '15:00:00', '16:40:00', 120),
+('S003', 'M003', 'C003', '16:00:00', '17:43:00', 90),
+('S004', 'M004', 'C004', '17:00:00', '19:02:00', 110),
+('S005', 'M005', 'C005', '18:00:00', '20:12:00', 80),
+('S006', 'M006', 'C006', '19:00:00', '20:59:00', 130),
+('S007', 'M007', 'C007', '20:00:00', '21:48:00', 120),
+('S008', 'M008', 'C008', '21:00:00', '23:32:00', 100),
+('S009', 'M009', 'C009', '22:00:00', '00:15:00', 110),
+('S010', 'M010', 'C010', '23:00:00', '00:58:00', 90);
 
 -- Insert into Promotion
 INSERT INTO Promotion VALUES 
-('P001', 'Buy 1 Get 1 Free', '2023-05-01', '2023-05-31'),
-('P002', '20% off on weekdays', '2023-04-01', '2023-04-30'),
-('P003', '30% off for students', '2023-06-01', '2023-06-30'),
-('P004', '50% off for seniors', '2023-07-01', '2023-07-31'),
-('P005', 'Free popcorn', '2023-08-01', '2023-08-31'),
-('P006', 'Free drink', '2023-09-01', '2023-09-30'),
-('P007', 'Discount on new releases', '2023-10-01', '2023-10-31'),
-('P008', 'Loyalty program discount', '2023-11-01', '2023-11-30'),
-('P009', 'Early bird discount', '2023-12-01', '2023-12-31'),
-('P010', 'Off-peak discount', '2024-01-01', '2024-01-31');
+('P001', 'Buy 1 Get 1 Free', '2023-05-01', '2023-05-31', 0.00),
+('P002', '20% off on weekdays', '2023-04-01', '2023-04-30', 20.00),
+('P003', '30% off for students', '2023-06-01', '2023-06-30', 30.00),
+('P004', '50% off for seniors', '2023-07-01', '2023-07-31', 50.00),
+('P005', 'Free popcorn', '2023-08-01', '2023-08-31', 0.00),
+('P006', 'Free drink', '2023-09-01', '2023-09-30', 0.00),
+('P007', 'Discount on new releases', '2023-10-01', '2023-10-31', 0.00),
+('P008', 'Loyalty program discount', '2023-11-01', '2023-11-30', 0.00),
+('P009', 'Early bird discount', '2023-12-01', '2023-12-31', 0.00),
+('P010', 'Off-peak discount', '2024-01-01', '2024-01-31', 0.00);
 
 -- Insert into Customer
 INSERT INTO Customer VALUES 
@@ -231,7 +233,7 @@ SELECT TotalDuration();
 
 -- VIEW SAMPLE 1 --
 CREATE OR REPLACE VIEW Active_Promotions_View AS
-SELECT Promotion_ID, Description, Start_Date, End_Date
+SELECT Promotion_ID, Description, Start_Date, End_Date, Discount_Percent
 FROM Promotion
 WHERE End_Date >= CURRENT_DATE;
 
