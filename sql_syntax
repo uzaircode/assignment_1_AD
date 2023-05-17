@@ -4,6 +4,7 @@ DROP table if exists Cinema CASCADE;
 DROP table if exists Showtime CASCADE;
 DROP table if exists Promotion CASCADE;
 DROP table if exists Customer CASCADE;
+DROP table if exists Receipt CASCADE;
 DROP table if exists TotalDurationTable CASCADE;
 
 
@@ -59,6 +60,14 @@ CREATE TABLE Customer (
 	CONSTRAINT Customer_ID PRIMARY KEY (Customer_ID)
 );
 
+CREATE TABLE Receipt (
+	Receipt_ID varchar(10) NOT NULL,
+	Price numeric(8,2),
+	
+	CONSTRAINT Receipt_ID PRIMARY KEY (Receipt_ID)
+);
+
+
 CREATE TABLE Booking (
 	Booking_ID varchar(10) NOT NULL,
 	Showtime_ID varchar(10),
@@ -66,6 +75,7 @@ CREATE TABLE Booking (
 	Cinema_ID varchar(10),
 	Promotion_ID varchar(10),
 	Movie_ID varchar(10),
+	Receipt_ID varchar(10),
 	Booking_Date Date,
 	
 	CONSTRAINT Booking_ID PRIMARY KEY (Booking_ID),
@@ -73,9 +83,10 @@ CREATE TABLE Booking (
 	FOREIGN KEY (Customer_ID) REFERENCES Customer(Customer_ID),
 	FOREIGN KEY (Cinema_ID) REFERENCES Cinema(Cinema_ID),
 	FOREIGN KEY (Promotion_ID) REFERENCES Promotion(Promotion_ID),
-	FOREIGN KEY (Movie_ID) REFERENCES Movie(Movie_ID)
-
+	FOREIGN KEY (Movie_ID) REFERENCES Movie(Movie_ID),
+	FOREIGN KEY (Receipt_ID) REFERENCES Receipt(Receipt_ID)
 );
+
 
 -- Insert into Movie
 INSERT INTO Movie VALUES 
@@ -142,19 +153,31 @@ INSERT INTO Customer VALUES
 ('CU009', 'Kumar S/O Raju', 65, 'kumar.raju@gmail.com', '7788990011'),
 ('CU010', 'Aishah Binti Hassan', 70, 'aishah.hassan@gmail.com', '8899001122');
 
-
+-- Insert into Receipt 
+INSERT INTO Receipt (Receipt_ID, Price) VALUES 
+('R001', 29.99),
+('R002', 15.99),
+('R003', 12.50),
+('R004', 20.00),
+('R005', 9.99),
+('R006', 18.50),
+('R007', 27.75),
+('R008', 14.99),
+('R009', 10.25),
+('R010', 19.99);
+      
 -- Insert into Booking
 INSERT INTO Booking VALUES 
-('B001', 'S001', 'CU001', 'C001', 'P001', 'M001', '2023-05-12'),
-('B002', 'S002', 'CU002', 'C002', 'P002', 'M002', '2023-05-12'),
-('B003', 'S003', 'CU003', 'C003', 'P003', 'M003', '2023-05-12'),
-('B004', 'S004', 'CU004', 'C004', 'P004', 'M004', '2023-05-12'),
-('B005', 'S005', 'CU005', 'C005', 'P005', 'M005', '2023-05-12'),
-('B006', 'S006', 'CU006', 'C006', 'P006', 'M006', '2023-05-12'),
-('B007', 'S007', 'CU007', 'C007', 'P007', 'M007', '2023-05-12'),
-('B008', 'S008', 'CU008', 'C008', 'P008', 'M008', '2023-05-12'),
-('B009', 'S009', 'CU009', 'C009', 'P009', 'M009', '2023-05-12'),
-('B010', 'S010', 'CU010', 'C010', 'P010', 'M010', '2023-05-12');
+('B001', 'S001', 'CU001', 'C001', 'P001', 'M001', 'R001', '2023-05-12'),
+('B002', 'S002', 'CU002', 'C002', 'P002', 'M002', 'R002', '2023-05-12'),
+('B003', 'S003', 'CU003', 'C003', 'P003', 'M003', 'R003', '2023-05-12'),
+('B004', 'S004', 'CU004', 'C004', 'P004', 'M004', 'R004', '2023-05-12'),
+('B005', 'S005', 'CU005', 'C005', 'P005', 'M005', 'R005', '2023-05-12'),
+('B006', 'S006', 'CU006', 'C006', 'P006', 'M006', 'R006', '2023-05-12'),
+('B007', 'S007', 'CU007', 'C007', 'P007', 'M007', 'R007', '2023-05-12'),
+('B008', 'S008', 'CU008', 'C008', 'P008', 'M008', 'R008', '2023-05-12'),
+('B009', 'S009', 'CU009', 'C009', 'P009', 'M009', 'R009', '2023-05-12'),
+('B010', 'S010', 'CU010', 'C010', 'P010', 'M010', 'R010', '2023-05-12');
 
 
 -- user-defined-function named TotalDuration that calculates the total duration of movies watched by a customer.
@@ -206,25 +229,24 @@ $$LANGUAGE'plpgsql';
 SELECT TotalDuration();
 
 
-
 -- VIEW SAMPLE 1 --
-CREATE OR REPLACE VIEW Showtime_Details_View AS
-SELECT S.Showtime_ID, S.Start_Time, S.End_Time, M.Movie_Title, C.Location
-FROM Showtime S
-JOIN Movie M ON S.Movie_ID = M.Movie_ID
-JOIN Cinema C ON S.Cinema_ID = C.Cinema_ID;
+CREATE VIEW Active_Promotions_View AS
+SELECT Promotion_ID, Description, Start_Date, End_Date
+FROM Promotion
+WHERE End_Date >= CURRENT_DATE;
 
-SELECT * FROM Showtime_Details_View;
+SELECT * FROM Active_Promotions_View;
 
 -- VIEW SAMPLE 2 --
 CREATE OR REPLACE VIEW Movie_Booking_View AS
-SELECT B.Booking_ID, B.Booking_Date, M.Movie_Title, M.Genre, CN.Location, S.Start_Time, S.End_Time, P.Description, C.Name AS Customer_Name, C.Email
+SELECT B.Booking_ID, B.Booking_Date, M.Movie_Title, M.Genre, CN.Location, S.Start_Time, S.End_Time, P.Description, C.Name AS Customer_Name, C.Email, R.Price
 FROM Booking B
 JOIN Movie M ON B.Movie_ID = M.Movie_ID
 JOIN Cinema CN ON B.Cinema_ID = CN.Cinema_ID
 JOIN Showtime S ON B.Showtime_ID = S.Showtime_ID
 JOIN Promotion P ON B.Promotion_ID = P.Promotion_ID
-JOIN Customer C ON B.Customer_ID = C.Customer_ID;
+JOIN Customer C ON B.Customer_ID = C.Customer_ID
+JOIN Receipt R ON B.Receipt_ID = R.Receipt_ID;
 
 SELECT * FROM Movie_Booking_View;
 
@@ -239,6 +261,7 @@ SELECT
     S.End_Time,
     Ci.Location AS Cinema_Location,
     P.Description AS Promotion_Description,
+    R.Price,
     COUNT(*) OVER (PARTITION BY B.Customer_ID) AS Total_Customer_Bookings
 FROM 
     Booking B
@@ -252,6 +275,8 @@ INNER JOIN
     Cinema Ci ON B.Cinema_ID = Ci.Cinema_ID
 LEFT JOIN 
     Promotion P ON B.Promotion_ID = P.Promotion_ID
+JOIN 
+    Receipt R ON B.Receipt_ID = R.Receipt_ID
 ORDER BY 
     B.Booking_ID;
    
