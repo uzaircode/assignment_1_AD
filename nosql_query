@@ -1,0 +1,220 @@
+db.createCollection("Movie")
+db.createCollection("Cinema")
+db.createCollection("Showtime")
+db.createCollection("Promotion")
+db.createCollection("Customer")
+db.createCollection("Receipt")
+db.createCollection("Booking")
+
+// Insert into Movie
+db.Movie.insertMany([
+  {
+    Movie_ID: "M001",
+    Movie_Title: "Polis Evo 3",
+    Genre: "Action",
+    Duration: "03:01:00",
+    Release_Date: ISODate("2023-05-25"),
+    classification: "PG-13"
+  },
+  {
+    Movie_ID: "M002",
+    Movie_Title: "The Super Mario Bros. Movie",
+    Genre: "Animation",
+    Duration: "01:40:00",
+    Release_Date: ISODate("2023-04-20"),
+    classification: "G"
+  },
+  {
+    Movie_ID: "M003",
+    Movie_Title: "Spider-Man: Across the Spider-Verse",
+    Genre: "Animation",
+    Duration: "01:43:00",
+    Release_Date: ISODate("2023-06-02"),
+    classification: "PG"
+  },
+  {
+    Movie_ID: "M004",
+    Movie_Title: "Luther: The Fallen Sun",
+    Genre: "Drama",
+    Duration: "02:02:00",
+    Release_Date: ISODate("2023-02-24"),
+    classification: "R"
+  },
+  {
+    Movie_ID: "M005",
+    Movie_Title: "Missing",
+    Genre: "Thriller",
+    Duration: "02:12:00",
+    Release_Date: ISODate("2023-01-20"),
+    classification: "R"
+  },
+  {
+    Movie_ID: "M006",
+    Movie_Title: "Oppenheimer",
+    Genre: "War",
+    Duration: "01:59:00",
+    Release_Date: ISODate("2023-07-21"),
+    classification: "R"
+  },
+  {
+    Movie_ID: "M007",
+    Movie_Title: "Murder Mystery 2",
+    Genre: "Comedy",
+    Duration: "01:48:00",
+    Release_Date: ISODate("2023-03-31"),
+    classification: "PG-13"
+  },
+  {
+    Movie_ID: "M008",
+    Movie_Title: "Fast X",
+    Genre: "Action",
+    Duration: "02:32:00",
+    Release_Date: ISODate("2023-05-18"),
+    classification: "PG-13"
+  },
+  {
+    Movie_ID: "M009",
+    Movie_Title: "Creed III",
+    Genre: "Drama",
+    Duration: "02:15:00",
+    Release_Date: ISODate("2023-03-03"),
+    classification: "PG"
+  },
+  {
+    Movie_ID: "M010",
+    Movie_Title: "The Super Marios",
+    Genre: "Animation",
+    Duration: "01:58:00",
+    Release_Date: ISODate("2023-04-20"),
+    classification: "PG"
+  }
+]);
+
+
+// Create Cinema collection and insert documents
+db.Cinema.insertMany([
+  {
+    Location: "Kuala Lumpur",
+    Hall_ID: "H001",
+    Capacity: 100
+  },
+  {
+    Location: "Penang",
+    Hall_ID: "H002",
+    Capacity: 120
+  },
+  {
+    Location: "Ipoh",
+    Hall_ID: "H003",
+    Capacity: 90
+  },
+  {
+    Location: "Kuching",
+    Hall_ID: "H004",
+    Capacity: 110
+  },
+  {
+    Location: "Johor Bahru",
+    Hall_ID: "H005",
+    Capacity: 80
+  },
+  {
+    Location: "Kota Kinabalu",
+    Hall_ID: "H006",
+    Capacity: 130
+  },
+  {
+    Location: "Shah Alam",
+    Hall_ID: "H007",
+    Capacity: 120
+  },
+  {
+    Location: "Melaka",
+    Hall_ID: "H008",
+    Capacity: 100
+  },
+  {
+    Location: "Alor Setar",
+    Hall_ID: "H009",
+    Capacity: 110
+  },
+  {
+    Location: "Kuantan",
+    Hall_ID: "H010",
+    Capacity: 90
+  }
+]);
+
+// Create Showtime collection and insert documents
+db.Showtime.insertMany([
+  { Showtime_ID: "S001", Movie_ID: "M001", Cinema_ID: "C001", Start_Time: "14:00:00", End_Time: "17:01:00", Vacancy: 100 },
+  { Showtime_ID: "S002", Movie_ID: "M002", Cinema_ID: "C002", Start_Time: "15:00:00", End_Time: "16:40:00", Vacancy: 120 },
+  { Showtime_ID: "S003", Movie_ID: "M003", Cinema_ID: "C003", Start_Time: "16:00:00", End_Time: "17:43:00", Vacancy: 90 },
+  { Showtime_ID: "S004", Movie_ID: "M004", Cinema_ID: "C004", Start_Time: "17:00:00", End_Time: "19:02:00", Vacancy: 110 },
+  { Showtime_ID: "S005", Movie_ID: "M005", Cinema_ID: "C005", Start_Time: "18:00:00", End_Time: "20:12:00", Vacancy: 80 },
+  { Showtime_ID: "S006", Movie_ID: "M006", Cinema_ID: "C006", Start_Time: "19:00:00", End_Time: "20:59:00", Vacancy: 130 },
+  { Showtime_ID: "S007", Movie_ID: "M007", Cinema_ID: "C007", Start_Time: "20:00:00", End_Time: "21:48:00", Vacancy: 120 },
+  { Showtime_ID: "S008", Movie_ID: "M008", Cinema_ID: "C008", Start_Time: "21:00:00", End_Time: "23:32:00", Vacancy: 100 },
+  { Showtime_ID: "S009", Movie_ID: "M009", Cinema_ID: "C009", Start_Time: "22:00:00", End_Time: "00:15:00", Vacancy: 110 },
+  { Showtime_ID: "S010", Movie_ID: "M010", Cinema_ID: "C010", Start_Time: "23:00:00", End_Time: "00:58:00", Vacancy: 90 }
+]);
+
+
+// Insert into Promotion
+db.Promotion.insertMany([
+  { Promotion_ID: "P001", Description: "Buy 1 Get 1 Free", Start_Date: ISODate("2023-05-01"), End_Date: ISODate("2023-05-31"), Discount_Percent: 0.00 },
+  { Promotion_ID: "P002", Description: "20% off on weekdays", Start_Date: ISODate("2023-04-01"), End_Date: ISODate("2023-04-30"), Discount_Percent: 20.00 },
+  { Promotion_ID: "P003", Description: "30% off for students", Start_Date: ISODate("2023-06-01"), End_Date: ISODate("2023-06-30"), Discount_Percent: 30.00 },
+  { Promotion_ID: "P004", Description: "50% off for seniors", Start_Date: ISODate("2023-07-01"), End_Date: ISODate("2023-07-31"), Discount_Percent: 50.00 },
+  { Promotion_ID: "P005", Description: "Free popcorn", Start_Date: ISODate("2023-08-01"), End_Date: ISODate("2023-08-31"), Discount_Percent: 0.00 },
+  { Promotion_ID: "P006", Description: "Free drink", Start_Date: ISODate("2023-09-01"), End_Date: ISODate("2023-09-30"), Discount_Percent: 0.00 },
+  { Promotion_ID: "P007", Description: "Discount on new releases", Start_Date: ISODate("2023-10-01"), End_Date: ISODate("2023-10-31"), Discount_Percent: 0.00 },
+  { Promotion_ID: "P008", Description: "Loyalty program discount", Start_Date: ISODate("2023-11-01"), End_Date: ISODate("2023-11-30"), Discount_Percent: 0.00 },
+  { Promotion_ID: "P009", Description: "Early bird discount", Start_Date: ISODate("2023-12-01"), End_Date: ISODate("2023-12-31"), Discount_Percent: 0.00 },
+  { Promotion_ID: "P010", Description: "Off-peak discount", Start_Date: ISODate("2024-01-01"), End_Date: ISODate("2024-01-31"), Discount_Percent: 0.00 }
+]);
+
+// Insert into Customer 
+db.Customer.insertMany([
+  { Customer_ID: "CU001", Name: "Ahmad Bin Ali", Age: 25, Email: "ahmad.ali@gmail.com", Phone_Number: "1234567890" },
+  { Customer_ID: "CU002", Name: "Siti Binti Abdul", Age: 30, Email: "siti.abdul@gmail.com", Phone_Number: "0987654321" },
+  { Customer_ID: "CU003", Name: "Mohd Tan Wei", Age: 35, Email: "mohd.tan@gmail.com", Phone_Number: "1122334455" },
+  { Customer_ID: "CU004", Name: "Amina Binti Idris", Age: 40, Email: "amina.idris@gmail.com", Phone_Number: "2233445566" },
+  { Customer_ID: "CU005", Name: "Chong Wei Ming", Age: 45, Email: "chong.wm@gmail.com", Phone_Number: "3344556677" },
+  { Customer_ID: "CU006", Name: "Nurul Izzah Anwar", Age: 50, Email: "nurul.anwar@gmail.com", Phone_Number: "4455667788" },
+  { Customer_ID: "CU007", Name: "Lim Guan Eng", Age: 55, Email: "lim.ge@gmail.com", Phone_Number: "5566778899" },
+  { Customer_ID: "CU008", Name: "Fatimah Binti Ismail", Age: 60, Email: "fatimah.ismail@gmail.com", Phone_Number: "6677889900" },
+  { Customer_ID: "CU009", Name: "Kumar S/O Raju", Age: 65, Email: "kumar.raju@gmail.com", Phone_Number: "7788990011" },
+  { Customer_ID: "CU010", Name: "Aishah Binti Hassan", Age: 70, Email: "aishah.hassan@gmail.com", Phone_Number: "8899001122" }
+]);
+
+// Insert into Receipt
+db.Receipt.insertMany([
+  { Receipt_ID: "R001", Price: 29.99 },
+  { Receipt_ID: "R002", Price: 15.99 },
+  { Receipt_ID: "R003", Price: 12.50 },
+  { Receipt_ID: "R004", Price: 20.00 },
+  { Receipt_ID: "R005", Price: 9.99 },
+  { Receipt_ID: "R006", Price: 18.50 },
+  { Receipt_ID: "R007", Price: 27.75 },
+  { Receipt_ID: "R008", Price: 14.99 },
+  { Receipt_ID: "R009", Price: 10.25 },
+  { Receipt_ID: "R010", Price: 19.99 }
+]);
+
+
+// Insert into Booking
+db.Booking.insertMany([
+  { Booking_ID: "B001", Showtime_ID: "S001", Customer_ID: "CU001", Cinema_ID: "C001", Promotion_ID: "P001", Movie_ID: "M001", Receipt_ID: "R001", Booking_Date: ISODate("2023-05-12") },
+  { Booking_ID: "B002", Showtime_ID: "S002", Customer_ID: "CU002", Cinema_ID: "C002", Promotion_ID: "P002", Movie_ID: "M002", Receipt_ID: "R002", Booking_Date: ISODate("2023-05-12") },
+  { Booking_ID: "B003", Showtime_ID: "S003", Customer_ID: "CU003", Cinema_ID: "C003", Promotion_ID: "P003", Movie_ID: "M003", Receipt_ID: "R003", Booking_Date: ISODate("2023-05-12") },
+  { Booking_ID: "B004", Showtime_ID: "S004", Customer_ID: "CU004", Cinema_ID: "C004", Promotion_ID: "P004", Movie_ID: "M004", Receipt_ID: "R004", Booking_Date: ISODate("2023-05-12") },
+  { Booking_ID: "B005", Showtime_ID: "S005", Customer_ID: "CU005", Cinema_ID: "C005", Promotion_ID: "P005", Movie_ID: "M005", Receipt_ID: "R005", Booking_Date: ISODate("2023-05-12") },
+  { Booking_ID: "B006", Showtime_ID: "S006", Customer_ID: "CU006", Cinema_ID: "C006", Promotion_ID: "P006", Movie_ID: "M006", Receipt_ID: "R006", Booking_Date: ISODate("2023-05-12") },
+  { Booking_ID: "B007", Showtime_ID: "S007", Customer_ID: "CU007", Cinema_ID: "C007", Promotion_ID: "P007", Movie_ID: "M007", Receipt_ID: "R007", Booking_Date: ISODate("2023-05-12") },
+  { Booking_ID: "B008", Showtime_ID: "S008", Customer_ID: "CU008", Cinema_ID: "C008", Promotion_ID: "P008", Movie_ID: "M008", Receipt_ID: "R008", Booking_Date: ISODate("2023-05-12") },
+  { Booking_ID: "B009", Showtime_ID: "S009", Customer_ID: "CU009", Cinema_ID: "C009", Promotion_ID: "P009", Movie_ID: "M009", Receipt_ID: "R009", Booking_Date: ISODate("2023-05-12") },
+  { Booking_ID: "B010", Showtime_ID: "S010", Customer_ID: "CU010", Cinema_ID: "C010", Promotion_ID: "P010", Movie_ID: "M010", Receipt_ID: "R010", Booking_Date: ISODate("2023-05-12") }
+]);
+
+
