@@ -217,4 +217,23 @@ db.Booking.insertMany([
   { Booking_ID: "B010", Showtime_ID: "S010", Customer_ID: "CU010", Cinema_ID: "C010", Promotion_ID: "P010", Movie_ID: "M010", Receipt_ID: "R010", Booking_Date: ISODate("2023-05-12") }
 ]);
 
+// Add unique index to Movie_ID field in Movie collection
+db.Movie.createIndex({ Movie_ID: 1 }, { unique: true });
 
+// Add unique index to Hall_ID field in Cinema collection
+db.Cinema.createIndex({ Hall_ID: 1 }, { unique: true });
+
+// Add unique index to Showtime_ID field in Showtime collection
+db.Showtime.createIndex({ Showtime_ID: 1 }, { unique: true });
+
+// Add unique index to Promotion_ID field in Promotion collection
+db.Promotion.createIndex({ Promotion_ID: 1 }, { unique: true });
+
+// Add unique index to Customer_ID field in Customer collection
+db.Customer.createIndex({ Customer_ID: 1 }, { unique: true });
+
+// Add unique index to Receipt_ID field in Receipt collection
+db.Receipt.createIndex({ Receipt_ID: 1 }, { unique: true });
+
+// Add unique index to Booking_ID field in Booking collection
+db.Booking.createIndex({ Booking_ID: 1 }, { unique: true });
